@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const anglePerSection = (Math.PI * 2) / 20;
     const numbers = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
 
+    let dartPositions = []; // Global array to store dart positions
+
     function drawDartboard() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
         canvas.width = 600;
@@ -29,7 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
             red: '#FF0000',
             green: '#008000',
             cream: '#c3b091',
-            silver: '#AFB1AE'
+            silver: '#AFB1AE',
+            Cyan: '#00FFFF',
+            Magenta: '#FF00FF',
+            Yellow: '#FFFF00',
+            Orange: '#FFA500',
+            BrightPurple: '#800080',
+            LimeGreen: '#00FF00',
+            SkyBlue: '#87CEEB',
+            Pink: '#FFC0CB',
+            Gold: '#FFD700',
+            LightGray: '#D3D3D3'
         };
 
         const drawSegment = (ctx, centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, color) => {
@@ -71,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.arc(centerX, centerY, doubleRingInnerRadius, 0, Math.PI * 2);
                 ctx.stroke();
             });
+            redrawDarts();
         };
 
         drawScoringSections(ctx, centerX, centerY, radius, numbers, colors);
@@ -105,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to add a player
     function addPlayer() {
-        const colors = ['blue', 'red', 'green', 'purple', 'orange'];
+        const colors = ['blue', 'Cyan', 'Magenta', 'Yellow', 'Orange', 'BrightPurple', 'LimeGreen', 'SkyBlue', 'Pink', 'Gold', 'LightGray'];
         let color = colors[players.length % colors.length];
         players.push({ name: `Player ${players.length + 1}`, scores: [], color: color, totalScore: 0 });
         updateUI();
@@ -121,22 +134,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Function to change a player's name
+     // Function to change a player's name
     function changePlayerName(index) {
         const newName = prompt("Enter new name for the player:", players[index].name);
         if (newName) {
             players[index].name = newName;
             initializeScoreboards();
+            initializeTotalScoreboard(); // Update the total score board as well
         }
     }
 
     function drawDart(x, y, color) {
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2); 
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
         ctx.fill();
+
+        // Store dart position
+        dartPositions.push({x, y, color});
     }
 
+
+    function redrawDarts() {
+        dartPositions.forEach(dart => {
+            drawDart(dart.x, dart.y, dart.color);
+        });
+    }
 
     // Function to initialize the scoreboards
 function initializeScoreboards() {
@@ -262,10 +285,10 @@ function initializeScoreboards() {
     }
 
      // Update the scoreboard and total scores
-    function updateScoreboard() {
+     function updateScoreboard() {
         const score = currentTurnHits.reduce((a, b) => a + b, 0);
         players[currentPlayer].scores.push({ hits: currentTurnHits, score: score });
-
+    
         // Calculate new total score based on game mode
         let newTotalScore = calculateScore(score, players[currentPlayer]);
         
@@ -285,9 +308,10 @@ function initializeScoreboards() {
             // For Free Mode, just update the total score
             players[currentPlayer].totalScore = newTotalScore;
         }
-
+    
         currentPlayer = (currentPlayer + 1) % players.length;
         currentTurnHits = [];
+        dartPositions = []; // Clear stored dart positions for the next turn
         updateUI();
     }
 
@@ -361,15 +385,35 @@ function initializeScoreboards() {
     });
 
     document.getElementById('newGame').addEventListener('click', () => {
-        players.forEach(player => player.scores = []);
+        players.forEach(player => {
+            player.scores = [];
+            // Set the starting score based on the game mode
+            switch(player.gameMode) {
+                case '301':
+                    player.totalScore = player.startingScore = 301;
+                    break;
+                case '501':
+                    player.totalScore = player.startingScore = 501;
+                    break;
+                case '701':
+                    player.totalScore = player.startingScore = 701;
+                    break;
+                default: // Covers 'Free' mode and any other cases
+                    player.totalScore = player.startingScore = 0;
+            }
+        });
         currentPlayer = 0;
         currentTurnHits = [];
-        initializeScoreboards();
-
-        drawDartboard(); // Redraw the dartboard
-        highlightCurrentPlayer(); // Highlight the first player
+        dartPositions = []; // Clear stored dart positions
+        updateUI();
     });
-    document.getElementById('addPlayer').addEventListener('click', addPlayer);
+    
+    
+    document.getElementById('addPlayer').addEventListener('click', () => {
+        addPlayer();
+        redrawDarts(); // Redraw darts after adding a new player
+    });
+
 
     // Canvas click event for dart throwing
     canvas.addEventListener('click', function(event) {
