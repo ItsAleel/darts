@@ -373,6 +373,7 @@ function initializeScoreboards() {
     
     document.getElementById('clearTurn').addEventListener('click', () => {
         currentTurnHits = [];
+        dartPositions = []; // Clear stored dart positions
         drawDartboard(); // Redraw to clear darts
     });
 
