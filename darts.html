@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dartboard Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="leftPanel">
+            <canvas id="dartboard" width="600" height="600"></canvas>
+
+            <div id="turnControls">
+                <button id="clearTurn">Clear</button>
+                <button id="confirmTurn">Confirm</button>
+            </div>
+
+            <div id="gameControls">
+                <button id="newGame">New Game</button>
+                <button id="addPlayer">Add Player</button>
+                <select id="gameModeSelect">
+                    <option value="Free">Free Mode</option>
+                    <option value="301">301</option>
+                    <option value="501">501</option>
+                    <option value="701">701</option>
+                </select>
+                <button id="saveGame">Save Game</button>
+            </div>
+        </div>
+
+        <!-- Place this inside the #gameContainer div -->
+        <div id="totalScoreboard">
+            <!-- Total scores will be dynamically added here -->
+        </div>
+
+
+        <div id="rightPanel">
+            <div class="playerScoreboards">
+                <!-- Dynamically add player scoreboards here -->
+            </div>
+        </div>
+    </div>
+
+   
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
