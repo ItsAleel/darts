@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+header {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #252525;
+    border: 2px solid #333;
+    border-radius: 10px;
+}
+
+section h2 {
+    color: #4CAF50;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+#gameModeSelect {
+    padding: 5px;
+    background-color: #444;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.game-modes {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.game-mode {
+    display: block;
+    text-align: center;
+    margin: 10px;
+}
+
+.game-mode img {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.game-mode span {
+    display: block;
+    margin-top: 5px;
+    color: #FFF;
+}
+
+.support-link {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.support-link:hover {
+    background-color: #66BB6A;
+}
+
+#pastGamesTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#pastGamesTable th, #pastGamesTable td {
+    border: 1px solid #4CAF50;
+    padding: 5px 10px;
+    text-align: left;
+}
+
+#pastGamesTable th {
+    background-color: #333;
+    color: white;
+}
+
+#pastGamesTable tr:nth-child(even) {
+    background-color: #252525;
+}
+
+#pastGamesTable button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#pastGamesTable button:hover {
+    background-color: #66BB6A;
+}
+
+/* Additional Styles for Past Games Table */
+#pastGamesTable .players {
+    color: #FFF;
+    font-weight: bold;
+}
+
+#pastGamesTable .player-name {
+    display: inline-block;
+    margin-right: 5px;
+    background-color: #444;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
