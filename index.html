@@ -3,47 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dartboard Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dart Game Home</title>
+    <link rel="stylesheet" href="HPstyles.css">
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="leftPanel">
-            <canvas id="dartboard" width="600" height="600"></canvas>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="darts.html">Play Game</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <div id="turnControls">
-                <button id="clearTurn">Clear</button>
-                <button id="confirmTurn">Confirm</button>
+    <main>
+        <section id="game-mode-selection" class="content-section">
+            <h2>Select Game Mode</h2>
+            <div class="game-modes">
+                <a href="darts.html?mode=Free" class="game-mode">
+                    <img src="images/free-play.jpg" alt="Free Play">
+                    <span>Free Play</span>
+                </a>
+                <a href="darts.html?mode=301" class="game-mode">
+                    <img src="images/301.jpg" alt="301">
+                    <span>301</span>
+                </a>
+                <!-- Add other game modes similarly -->
             </div>
+        </section>
+        
+        
+     <!-- Inside the Past Games section -->
+        <section id="past-games" class="content-section">
+            <h2>Past Games</h2>
+            <table id="pastGamesTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Number of Players</th>
+                        <th>Players</th>
+                        <th>Game Mode</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Past games rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
 
-            <div id="gameControls">
-                <button id="newGame">New Game</button>
-                <button id="addPlayer">Add Player</button>
-                <select id="gameModeSelect">
-                    <option value="Free">Free Mode</option>
-                    <option value="301">301</option>
-                    <option value="501">501</option>
-                    <option value="701">701</option>
-                </select>
-            </div>
-        </div>
 
-        <!-- Place this inside the #gameContainer div -->
-        <div id="totalScoreboard">
-            <!-- Total scores will be dynamically added here -->
-        </div>
+        
 
+        <section id="updates" class="content-section">
+            <h2>Latest Updates</h2>
+            <p>Check out the latest updates and news about the game.</p>
+            <!-- Add updates content here -->
+        </section>
 
-        <div id="rightPanel">
-            <div class="playerScoreboards">
-                <!-- Dynamically add player scoreboards here -->
-            </div>
-        </div>
-    </div>
+        <section id="support-creator" class="content-section">
+            <h2>Support the Creator</h2>
+            <p>Love the game? Consider supporting the creator!</p>
+            <a href="https://www.paypal.com" class="support-link">Donate via PayPal</a>
+            <!-- Additional social media or support links -->
+        </section>
+    </main>
 
-   
-    
+    <footer>
+        <p>&copy; 2024 Dart Game. All rights reserved.</p>
+    </footer>
 
-    <script src="script.js"></script>
+    <script src="HPscript.js"></script>
 </body>
 </html>
