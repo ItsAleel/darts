@@ -26,12 +26,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawDartboard() {
-        // Logic to draw the dartboard (basic example)
-        ctx.fillStyle = 'white';
-        ctx.beginPath();
-        ctx.arc(300, 300, 300, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+        const radius = dartboard.width / 2;
+        const centerX = dartboard.width / 2;
+        const centerY = dartboard.height / 2;
+
+        const colors = ['black', 'white', 'red', 'green'];
+
+        for (let i = 0; i < 10; i++) {
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - i * (radius / 10), 0, Math.PI * 2);
+            ctx.fillStyle = colors[i % colors.length];
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Draw sectors
+        for (let i = 0; i < 20; i++) {
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, (i * Math.PI) / 10, ((i + 1) * Math.PI) / 10);
+            ctx.fillStyle = colors[i % colors.length];
+            ctx.fill();
+            ctx.stroke();
+        }
     }
 
     function addPlayer() {
