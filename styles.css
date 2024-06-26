@@ -122,7 +122,6 @@ button:hover {
   margin-top: 10px;
 }
 
-
 .playerIndicator {
   height: 15px;
   width: 15px;
@@ -139,7 +138,6 @@ button:hover {
   margin-left: auto; /* Aligns to the right */
   font-weight: bold;
 }
-
 
 #totalScoreboard {
   width: 30%; /* Reduced width */
@@ -177,8 +175,6 @@ button:hover {
   background-color: #4CAF50;
 }
 
-
-
 /* Additional CSS for the fixed header and scrollable body */
 .scoreTableHeader {
   width: 100%;
@@ -195,4 +191,19 @@ button:hover {
 .scoreTableContainer {
   max-height: 200px; /* Adjust based on your preference */
   overflow-y: auto;
+}
+
+/* Add responsiveness for mobile devices */
+@media (max-width: 768px) {
+    #gameContainer {
+        flex-direction: column;
+    }
+
+    #leftPanel, #rightPanel {
+        flex-basis: 100%;
+    }
+
+    #totalScoreboard {
+        width: 100%;
+    }
 }
