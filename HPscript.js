@@ -18,8 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadGame(gameId) {
-        alert(`Loading game ID: ${gameId}`);
-        // Logic to load the specific game state based on gameId
+        const pastGames = JSON.parse(localStorage.getItem('pastGames')) || [];
+        const game = pastGames.find(g => g.id === gameId);
+        
+        if (game) {
+            localStorage.setItem('dartGame', JSON.stringify({
+                players: game.players,
+                gameMode: game.mode,
+                currentPlayerIndex: 0
+            }));
+            window.location.href = 'darts.html'; // Redirect to the game page
+        } else {
+            alert('Game not found.');
+        }
     }
 
     loadPastGames();
