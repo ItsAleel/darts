@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (game) {
             localStorage.setItem('dartGame', JSON.stringify({
-                players: game.players,
+                players: game.playersData,
                 gameMode: game.mode,
                 currentPlayerIndex: 0
             }));
