@@ -160,3 +160,21 @@ button:hover {
     padding: 2px 5px;
     border-radius: 3px;
 }
+
+/* Add responsiveness for mobile devices */
+@media (max-width: 768px) {
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .game-modes {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-mode {
+        width: 100%;
+        max-width: 300px;
+    }
+}
