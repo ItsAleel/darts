@@ -25,31 +25,45 @@ document.addEventListener('DOMContentLoaded', () => {
         totalScoreboard.innerHTML = '';
     }
 
-    function drawDartboard() {
-        const radius = dartboard.width / 2;
-        const centerX = dartboard.width / 2;
-        const centerY = dartboard.height / 2;
+   window.onload = function() {
+    drawDartboard();
+};
 
-        const colors = ['black', 'white', 'red', 'green'];
-
-        for (let i = 0; i < 10; i++) {
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius - i * (radius / 10), 0, Math.PI * 2);
-            ctx.fillStyle = colors[i % colors.length];
-            ctx.fill();
-            ctx.stroke();
-        }
-
-        // Draw sectors
-        for (let i = 0; i < 20; i++) {
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, (i * Math.PI) / 10, ((i + 1) * Math.PI) / 10);
-            ctx.fillStyle = colors[i % colors.length];
-            ctx.fill();
-            ctx.stroke();
-        }
+function drawDartboard() {
+    const canvas = document.getElementById('dartboard');
+    const ctx = canvas.getContext('2d');
+    
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const maxRadius = canvas.width / 2;
+    
+    const colors = ['#fff', '#000']; // Alternating colors for the segments
+    const numSegments = 20;
+    
+    for (let i = 0; i < numSegments; i++) {
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, maxRadius, (i * 2 * Math.PI / numSegments), ((i + 1) * 2 * Math.PI / numSegments));
+        ctx.closePath();
+        ctx.fillStyle = colors[i % 2];
+        ctx.fill();
     }
+    
+    drawCircles(ctx, centerX, centerY, maxRadius);
+}
+
+function drawCircles(ctx, centerX, centerY, maxRadius) {
+    const ringColors = ['#00f', '#0f0', '#f00', '#000', '#fff'];
+    const ringWidth = maxRadius / 5;
+
+    for (let i = 0; i < ringColors.length; i++) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, maxRadius - i * ringWidth, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fillStyle = ringColors[i];
+        ctx.fill();
+    }
+}
 
     function addPlayer() {
         const playerName = prompt('Enter player name:');
