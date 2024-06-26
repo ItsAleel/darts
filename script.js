@@ -17,12 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initGame() {
         ctx.clearRect(0, 0, dartboard.width, dartboard.height);
+        drawDartboard();
         players = [];
         currentPlayerIndex = 0;
         currentTurnScores = [];
         playerScoreboards.innerHTML = '';
         totalScoreboard.innerHTML = '';
-        addPlayer();
+    }
+
+    function drawDartboard() {
+        // Logic to draw the dartboard (basic example)
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(300, 300, 300, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
     }
 
     function addPlayer() {
@@ -122,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startNewGame() {
         if (confirm('Are you sure you want to start a new game?')) {
             initGame();
+            addPlayer();
         }
     }
 
@@ -132,21 +142,21 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPlayerIndex
         };
         localStorage.setItem('dartGame', JSON.stringify(gameState));
-        savePastGame();
+        savePastGame(gameState);
         alert('Game saved!');
     }
 
-    function savePastGame() {
+    function savePastGame(gameState) {
         const pastGames = JSON.parse(localStorage.getItem('pastGames')) || [];
         const gameDate = new Date().toISOString().split('T')[0];
-        const playersNames = players.map(player => player.name).join(', ');
+        const playersNames = gameState.players.map(player => player.name).join(', ');
         pastGames.push({
             id: Date.now(),
             date: gameDate,
-            players: players.length,
+            players: gameState.players.length,
             names: playersNames,
-            mode: gameMode,
-            playersData: players
+            mode: gameState.gameMode,
+            playersData: gameState.players
         });
         localStorage.setItem('pastGames', JSON.stringify(pastGames));
     }
@@ -158,8 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
             players = gameState.players;
             gameMode = gameState.gameMode;
             currentPlayerIndex = gameState.currentPlayerIndex;
+            drawDartboard();
             renderPlayerScoreboards();
             renderTotalScoreboard();
+        } else {
+            initGame();
+            addPlayer();
         }
     }
 
@@ -172,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gameMode = e.target.value;
     });
 
-    initGame();
     loadGame();
 });
 
@@ -185,10 +198,12 @@ function makeTurn(playerIndex) {
 
 document.addEventListener('playerTurn', (e) => {
     const { playerIndex, score } = e.detail;
-    const players = JSON.parse(localStorage.getItem('dartGame')).players;
+    const savedGame = JSON.parse(localStorage.getItem('dartGame'));
+    const players = savedGame.players;
     players[playerIndex].scores.push(score);
     players[playerIndex].totalScore += score;
-    localStorage.setItem('dartGame', JSON.stringify({ players, gameMode: 'Free', currentPlayerIndex: 0 }));
+    savedGame.players = players;
+    localStorage.setItem('dartGame', JSON.stringify(savedGame));
     document.querySelector(`#scores-${playerIndex}`).innerHTML += `
         <tr>
             <td>${players[playerIndex].scores.length}</td>
