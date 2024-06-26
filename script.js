@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameMode = 'Free';
     let currentTurnScores = [];
 
-    // Initial game setup
     function initGame() {
         ctx.clearRect(0, 0, dartboard.width, dartboard.height);
         players = [];
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addPlayer();
     }
 
-    // Adding a new player
     function addPlayer() {
         const playerName = prompt('Enter player name:');
         if (playerName) {
@@ -41,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Rendering player scoreboards
     function renderPlayerScoreboards() {
         playerScoreboards.innerHTML = '';
         players.forEach((player, index) => {
@@ -72,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Rendering the total scoreboard
     function renderTotalScoreboard() {
         totalScoreboard.innerHTML = '';
         players.forEach((player, index) => {
@@ -86,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Making a turn
     function makeTurn(playerIndex) {
         const score = prompt('Enter score for this turn:');
         if (score && !isNaN(score)) {
@@ -94,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Rendering scores for a player
     function renderPlayerScores(playerIndex) {
         const scoresTableBody = document.getElementById(`scores-${playerIndex}`);
         scoresTableBody.innerHTML = '';
@@ -109,13 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(`total-${playerIndex}`).innerText = players[playerIndex].totalScore;
     }
 
-    // Clearing the current turn
     function clearTurn() {
         currentTurnScores = [];
         alert('Current turn cleared.');
     }
 
-    // Confirming the current turn
     function confirmTurn() {
         currentTurnScores.forEach(({ playerIndex, score }) => {
             players[playerIndex].scores.push(score);
@@ -127,14 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Turn confirmed.');
     }
 
-    // Starting a new game
     function startNewGame() {
         if (confirm('Are you sure you want to start a new game?')) {
             initGame();
         }
     }
 
-    // Saving the game state
     function saveGame() {
         const gameState = {
             players,
@@ -142,10 +132,25 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPlayerIndex
         };
         localStorage.setItem('dartGame', JSON.stringify(gameState));
+        savePastGame();
         alert('Game saved!');
     }
 
-    // Loading the game state
+    function savePastGame() {
+        const pastGames = JSON.parse(localStorage.getItem('pastGames')) || [];
+        const gameDate = new Date().toISOString().split('T')[0];
+        const playersNames = players.map(player => player.name).join(', ');
+        pastGames.push({
+            id: Date.now(),
+            date: gameDate,
+            players: players.length,
+            names: playersNames,
+            mode: gameMode,
+            playersData: players
+        });
+        localStorage.setItem('pastGames', JSON.stringify(pastGames));
+    }
+
     function loadGame() {
         const savedGame = localStorage.getItem('dartGame');
         if (savedGame) {
@@ -158,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Adding event listeners
     clearTurnBtn.addEventListener('click', clearTurn);
     confirmTurnBtn.addEventListener('click', confirmTurn);
     newGameBtn.addEventListener('click', startNewGame);
@@ -168,12 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gameMode = e.target.value;
     });
 
-    // Initial game setup on page load
     initGame();
     loadGame();
 });
 
-// Global function to handle makeTurn call (since we can't have inline event listeners)
 function makeTurn(playerIndex) {
     const score = prompt('Enter score for this turn:');
     if (score && !isNaN(score)) {
@@ -181,7 +183,6 @@ function makeTurn(playerIndex) {
     }
 }
 
-// Listen for the playerTurn event to update scores
 document.addEventListener('playerTurn', (e) => {
     const { playerIndex, score } = e.detail;
     const players = JSON.parse(localStorage.getItem('dartGame')).players;
